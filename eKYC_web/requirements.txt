@@ -1,0 +1,9 @@
+flask
+tensorflow
+opencv-python
+werkzeug
+fitz
+scipy
+face_recognition
+fontend
+tools

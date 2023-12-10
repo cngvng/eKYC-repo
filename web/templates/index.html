@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p#result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Upload and Processing</h1>
+    <input type="file" id="imageInput">
+    <button id="uploadButton">Upload and Process</button>
+    <p id="result"></p>
+    <script>
+        document.getElementById('uploadButton').addEventListener('click', async () => {
+            const imageInput = document.getElementById('imageInput');
+            const resultElement = document.getElementById('result');
+
+            if (imageInput.files.length > 0) {
+                const formData = new FormData();
+                formData.append('image', imageInput.files[0]);
+
+                try {
+                    const response = await fetch('http://localhost:8000/upload', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const data = await response.json();
+                    resultElement.textContent = data.result;
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                    resultElement.textContent = 'Error uploading image.';
+                }
+            } else {
+                resultElement.textContent = 'Please select an image to upload.';
+            }
+        });
+    </script>
+</body>
+</html>
